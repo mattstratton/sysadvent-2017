@@ -1,5 +1,6 @@
 pipeline {
   agent any
+  git url: 'https://github.com/mattstratton/sa2017-app.git'
 
   stages {
     stage("Lint") {
