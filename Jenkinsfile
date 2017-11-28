@@ -40,6 +40,7 @@ suites:
     verifier:
       inspec_tests:
         - test/smoke/default
+        - https://github.com/mattstratton/sa2017-compliance.git
     attributes:
 '''
         sh 'KITCHEN_YAML=".kitchen.jenkins.yml" kitchen test'
