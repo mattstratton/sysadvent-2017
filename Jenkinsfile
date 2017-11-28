@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  
-  node {
-    git url: 'https://github.com/mattstratton/sa2017-app.git'
 
   
 
@@ -55,7 +52,6 @@ suites:
   }
 
 
-}
 }
 
 
