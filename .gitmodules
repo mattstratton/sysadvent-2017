@@ -1,0 +1,6 @@
+[submodule "sa2017-app"]
+	path = sa2017-app
+	url = https://github.com/mattstratton/sa2017-app.git
+[submodule "sa2017-compliance"]
+	path = sa2017-compliance
+	url = https://github.com/mattstratton/sa2017-compliance.git
