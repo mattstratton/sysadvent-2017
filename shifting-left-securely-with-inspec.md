@@ -16,9 +16,9 @@ The problem with the "separation of duties" approach to solve all your stablity 
 
 It's also a huge burden on one group to be able to understand all the options and variance that steps in a "run book" will result in.
 
-How do we usually do this? We might have a project that is 8 sprints long. And we don't think about security until the 8th sprint which is the "hardening" sprint.
+How do we usually do this? We might have a project that is 8 sprints long, but we don't think about security until the 8th sprint which is the "hardening" sprint.
 
-Naturally, we fail all of this hardening, because we haven't been thinking about security all this time. Security and compliance need to be a consideration from the very beginning. We do this with tooling AND with culture. In this post, I'll be mostly focusing on how to leverage tooling to assist in supporting the cultural changes required. Specifically, I will be focusing on using inSpec to verify your infracode (in this case I'll be using Chef, but this will work just as well with other infracode tools).
+Naturally, we fail all of this hardening because we haven't been thinking about security until now. Security and compliance need to be a consideration from the very beginning. We do this with tooling AND with culture. In this post, I'll be mostly focusing on how to leverage tooling to assist in supporting the cultural changes required. Specifically, I will be focusing on using inSpec to verify your infracode (in this case I'll be using Chef, but this will work just as well with other infracode tools).
 
 ## Shift left
 
@@ -30,13 +30,15 @@ Of course, this introduces some challenges, right? If my tests don't pass, I can
 
 Compliance and security are just another aspect of quality. It would sound ludicrous to only QA test our applications right before we deploy to production. It should sound just as ridiculous to wait until a "hardening sprint" to start thinking about security and compliance.
 
-Another problem is that often times, these tests we do at the end are heavy. That is to say, they are figuratively or literally expensive; they require large resources, or expensive per-seat licenses, so we don't use them as often as we should. We need something better.
+Another problem is that often times, these tests we do at the end are heavy. That is to say, they are figuratively or literally expensive; they require large resources, or expensive per-seat licenses, so we don't use them as often as we should. 
+
+We need something better.
 
 ## Trying to prevent specific behaviors is a losing battle
 
-* If you spend time keeping people from doing x, y, or z
-* They will instead do a, b, or c to get the outcome they want
-* Even worse, no communication happens. Insights are lost.
+* You spend time keeping people from doing x, y, or z
+* They do a, b, or c to get the outcome they want
+* No communication happens. Insights are lost.
 
 No matter how much you try to block the "how", you should focus on the "what". Consider the outcome, not the mechanism that lead to that outcome. 
 
@@ -62,7 +64,7 @@ The pipeline catches them.
 
 They'll do better next time.
 
-Even organizations that have a high-trust cultures, but still test everything. Take a page from Ronald Reagan - "Trust, but verify". I don't even trust *myself* to remember to test all the time. Remember, we enable local testing, but we *don't count on it*.
+Even organizations that have a high-trust culture test *everything*. Take a page from Ronald Reagan - "Trust, but verify". I don't even trust *myself* to remember to test all the time. Remember, we enable local testing, but we *don't count on it*.
 
 ##  If you truly care about a thing, you care enough to write a test
 
@@ -70,13 +72,13 @@ Often times, the excuse given is "I don't have time to write a test for this thi
 
 When you are writing these tests, think about this: we are testing for outcomes. Outcomes are what matter. Our pipeline is creating an artifact (in the case of infracode, this artifact is a converged node). What matters is the state of that outcome. *How* you got it there is not the question. We should be testing compliance and security against artifacts, and the outcome we are testing is "is this thing the way it should be, or is it a scary nightmare that should never see production"?
 
-## Democrotize your testing
+## Democratize your testing
 
 Remember when I talked about the hubris of sysadmins? Infosec folks do it too. Tools are kind of the least important thing to think about, but make sure it's not a tool that can only run tests from the security folks. If you care about compliance, move that stuff to the left. If your tool can't do that, it's time to find another tool.
 
 That doesn't mean you need to throw out what you have, but consider adding something. The more that you can emulate whatever you care about testing in production into your pipeline, the happier you will be. Monitoring is just testing with a time dimension; this applies to compliance as well.
 
-What you do *not* want to do is have a test in the pipeline that cannot be run by the local developer. Basically, if you do this, you're a a big meanie[1].
+What you do *not* want to do is have a test in the pipeline that cannot be run by the local developer. Basically, if you do this, you're a big meanie[1].
 
 ## Enter inSpec
 
@@ -112,7 +114,7 @@ As you can see, with inSpec, not only is if fairly human-readable, it provides *
 
 ### Cookbook
 
-We start by taking a look at a basic cookbook that creates a user and makes it own the `/var/log` directory (which we probably don't want to happen):
+We start by taking a look at a basic cookbook that creates a user and gives it ownership of the `/var/log` directory (which we probably don't want to happen):
 
 ``` ruby
 user 'sa2017-app' do
